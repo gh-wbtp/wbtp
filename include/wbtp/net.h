@@ -28,6 +28,7 @@ typedef int WbtpSocket;
 #include "wbtp/winshit.h"
 #include "wbtp.h"
 
+#define WBTP_PORT_TCP 6969
 #define WBTP_PACKET_MAX_SIZE 4096
 
 WBTP_API uint32_t wbtp_request_packet_deserialize(WbtpRequest *request, WbtpSocket connection);

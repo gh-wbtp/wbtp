@@ -4,7 +4,7 @@
 
 **WBTP** is a drop-in replacement for **HTTP** (but not **HTTPS**). However, readable text was swapped out for packed binary! This allows for quicker transfer speeds and serialization/deserialization, at the loss of direct readability.
 
-Implementations providing a custom networking layer must use **TCP** and make no direct modifications to our request/response packets, to maintain spec compliance.
+Implementations providing a custom networking layer must use **TCP** and make no direct modifications to our request/response packets, to maintain spec compliance. A default TCP port of `6969` should be assumed, though custom ports are allowed.
 
 Each release package provides C17-focused header files along with shared-object libraries for [5 platforms](#supported-platforms-5)! This doesn't mean the library is completely incompatible, though. We suggest testing it yourself and submitting a PR modifying the list of tested C versions below, along with how compatible the library is:
 - Standard 17 **(main target)**
