@@ -91,10 +91,11 @@ uint32_t wbtp_request_packet_serialize(const WbtpRequest request, WbtpSocket con
         char error[256];
         snprintf(error, 256, "Unable to serialize request! Apparently %u KiB of allocated space wasn't big enough.", WBTP_PACKET_MAX_SIZE / 1024);
         wbtp_set_error(error);
-        return 1;
+        return 0;
     }
 
-    send_all(connection, outbuf, request_serialized);
+    wbtp_set_error("");
+    return send_all(connection, outbuf, request_serialized);
 }
 
 uint32_t wbtp_response_packet_deserialize(WbtpResponse *response, WbtpSocket connection)
@@ -145,5 +146,6 @@ uint32_t wbtp_response_packet_serialize(const WbtpResponse response, WbtpSocket 
         return 1;
     }
 
-    send_all(connection, outbuf, response_serialized);
+    wbtp_set_error("");
+    return send_all(connection, outbuf, response_serialized);
 }

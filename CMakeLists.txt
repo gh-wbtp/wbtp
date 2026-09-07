@@ -6,6 +6,6 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 # Library
 add_library(wbtp SHARED)
-target_sources(wbtp PUBLIC src/init.c src/sede.c src/net.c src/util.c)
+target_sources(wbtp PUBLIC src/init.c src/sede.c src/net.c src/util.c src/errors.c)
 target_include_directories(wbtp PUBLIC include)
 target_compile_definitions(wbtp PRIVATE WBTP_BUILD)
