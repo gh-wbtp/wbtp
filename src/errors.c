@@ -11,6 +11,6 @@ char *wbtp_get_error(void)
 
 void wbtp_set_error(const char *error)
 {
-    wbtp_error = error;
+    wbtp_error = (char *)error;
     strcpy(wbtp_error, error);
 }
