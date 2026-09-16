@@ -74,9 +74,11 @@ public final class WbtpResponses {
         var data = new DataOutputStream(bData);
         data.writeByte(response.type);
 
-        var params = new String(response.params);
-        data.writeInt(params.length());
-        data.write(params.getBytes(StandardCharsets.UTF_8));
+        int paramsSize = 0;
+        while (paramsSize < response.params.length && response.params[paramsSize] != '\0') paramsSize++;
+        var params = new String(response.params, 0, paramsSize).getBytes(StandardCharsets.UTF_8);
+        data.writeInt(params.length);
+        data.write(params);
 
         data.writeInt(response.payload.length);
         data.write(response.payload);
@@ -97,11 +99,16 @@ public final class WbtpResponses {
         data.readInt();
         response.type = data.readByte();
 
-        var params = new byte[Math.min(data.readInt(), WBTP_PARAMS_MAX)];
+        var paramsSize = data.readInt();
+        if (paramsSize < 0) throw new IOException("Invalid params size!");
+        if (paramsSize >= WBTP_PARAMS_MAX) throw new IOException("Params too long!");
+        var params = new byte[paramsSize];
         data.readFully(params);
-        setParams(response, new String(params));
+        setParams(response, new String(params, StandardCharsets.UTF_8));
 
-        var payload = new byte[data.readInt()];
+        var payloadSize = data.readInt();
+        if (payloadSize < 0) throw new IOException("Invalid payload size!");
+        var payload = new byte[payloadSize];
         data.readFully(payload);
         setPayload(response, payload);
     }
