@@ -97,7 +97,7 @@ uint32_t wbtp_request_deserialize(WbtpRequest *request, const char *buf, uint32_
     if (path_size >= WBTP_PATH_MAX)
         return 0;
 
-    if (i + path_size > buf_size)
+    if (i + sizeof(uint32_t) + path_size > buf_size)
         return 0;
 
     read_str(&i, buf, buf_size, request->path);
@@ -109,7 +109,7 @@ uint32_t wbtp_request_deserialize(WbtpRequest *request, const char *buf, uint32_
     if (params_size >= WBTP_PARAMS_MAX)
         return 0;
 
-    if (i + params_size > buf_size)
+    if (i + sizeof(uint32_t) + params_size > buf_size)
         return 0;
 
     read_str(&i, buf, buf_size, request->params);

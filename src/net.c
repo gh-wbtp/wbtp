@@ -66,6 +66,12 @@ uint32_t wbtp_request_packet_deserialize(WbtpRequest *request, WbtpSocket connec
                            ((uint32_t)inbuf[2] << 8) |
                            ((uint32_t)inbuf[3]);
 
+    if (packet_size > WBTP_PACKET_MAX_SIZE - sizeof(uint32_t))
+    {
+        wbtp_set_error("Packet too large!");
+        return 0;
+    }
+
     if (!recv_all(connection, inbuf + sizeof(uint32_t), packet_size))
     {
         wbtp_set_error("Failed to receive packet body!");
@@ -117,6 +123,12 @@ uint32_t wbtp_response_packet_deserialize(WbtpResponse *response, WbtpSocket con
                            ((uint32_t)inbuf[1] << 16) |
                            ((uint32_t)inbuf[2] << 8) |
                            ((uint32_t)inbuf[3]);
+
+    if (packet_size > WBTP_PACKET_MAX_SIZE - sizeof(uint32_t))
+    {
+        wbtp_set_error("Packet too large!");
+        return 0;
+    }
 
     if (!recv_all(connection, inbuf + sizeof(uint32_t), packet_size))
     {
