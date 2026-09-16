@@ -67,7 +67,7 @@ jobs:
           cp LICENSE package/
           cp README.md package/
           cp -R include/. package/include/
-          find build -type f \( -name '*.so' -o -name '*.so.*' -o -name '*.dylib' -o -name '*.dll' -o -name '*.lib' \) -exec cp {} package/lib/ \;
+          find build -type f \( -name '*.so' -o -name '*.so.*' -o -name '*.dylib' -o -name '*.a' -o -name '*.dll' -o -name '*.lib' \) -exec cp {} package/lib/ \;
           find package -type f
 
       - name: Create ZIP
