@@ -25,6 +25,7 @@ All numerical values are big-endian (aka network byte order).
 |Label|Description|
 |---|---|
 |`byte`|Unsigned 8-bit integer|
+|`u16`|Unsigned 16-bit/2-byte integer|
 |`u32`|Unsigned 32-bit/4-byte integer|
 |`string`|UTF-8 encoded byte(s)|
 
@@ -32,8 +33,8 @@ A typical **WBTP** request is structured something like this:
 ```
 [packet size : u32]                                    ; Size of everything that follows (in bytes, not including itself)
 [type : byte]                                          ; Type of request
-[path size : u32][...path : string, max size 512]      ; Size of request path, followed by request path
-[params size : u32][...params : string, max size 512]  ; Size of request params, followed by request params
+[path size : u16][...path : string, max size 512]      ; Size of request path, followed by request path
+[params size : u16][...params : string, max size 512]  ; Size of request params, followed by request params
 [payload size : u32][...payload : bytes, no max size]  ; Size of payload, followed by payload
 ```
 
@@ -43,7 +44,7 @@ A typical **WBTP** request is structured something like this:
 ```
 [packet size : u32]                                    ; Size of everything that follows (in bytes)
 [type : byte]                                          ; Type of response
-[params size : u32][...params : string, max size 512]  ; Size of response params, followed by response params
+[params size : u16][...params : string, max size 512]  ; Size of response params, followed by response params
 [payload size : u32][...payload : bytes, no max size]  ; Size of payload, followed by payload
 ```
 

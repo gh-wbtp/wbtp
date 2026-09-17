@@ -77,7 +77,7 @@ public final class WbtpResponses {
         int paramsSize = 0;
         while (paramsSize < response.params.length && response.params[paramsSize] != '\0') paramsSize++;
         var params = new String(response.params, 0, paramsSize).getBytes(StandardCharsets.UTF_8);
-        data.writeInt(params.length);
+        data.writeShort(params.length);
         data.write(params);
 
         data.writeInt(response.payload.length);
@@ -99,8 +99,7 @@ public final class WbtpResponses {
         data.readInt();
         response.type = data.readByte();
 
-        var paramsSize = data.readInt();
-        if (paramsSize < 0) throw new IOException("Invalid params size!");
+        var paramsSize = data.readUnsignedShort();
         if (paramsSize >= WBTP_PARAMS_MAX) throw new IOException("Params too long!");
         var params = new byte[paramsSize];
         data.readFully(params);

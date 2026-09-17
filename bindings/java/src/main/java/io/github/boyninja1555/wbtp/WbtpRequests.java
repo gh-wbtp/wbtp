@@ -94,13 +94,13 @@ public final class WbtpRequests {
         int pathSize = 0;
         while (pathSize < request.path.length && request.path[pathSize] != '\0') pathSize++;
         var path = new String(request.path, 0, pathSize).getBytes(StandardCharsets.UTF_8);
-        data.writeInt(path.length);
+        data.writeShort(path.length);
         data.write(path);
 
         int paramsSize = 0;
         while (paramsSize < request.params.length && request.params[paramsSize] != '\0') paramsSize++;
         var params = new String(request.params, 0, paramsSize).getBytes(StandardCharsets.UTF_8);
-        data.writeInt(params.length);
+        data.writeShort(params.length);
         data.write(params);
 
         data.writeInt(request.payload.length);
@@ -122,15 +122,13 @@ public final class WbtpRequests {
         data.readInt();
         request.type = data.readByte();
 
-        var pathSize = data.readInt();
-        if (pathSize < 0) throw new IOException("Invalid path size!");
+        var pathSize = data.readUnsignedShort();
         if (pathSize >= WBTP_PATH_MAX) throw new IOException("Path too long!");
         var path = new byte[pathSize];
         data.readFully(path);
         setPath(request, new String(path, StandardCharsets.UTF_8));
 
-        var paramsSize = data.readInt();
-        if (paramsSize < 0) throw new IOException("Invalid params size!");
+        var paramsSize = data.readUnsignedShort();
         if (paramsSize >= WBTP_PARAMS_MAX) throw new IOException("Params too long!");
         var params = new byte[paramsSize];
         data.readFully(params);
